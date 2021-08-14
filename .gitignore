@@ -78,3 +78,5 @@ typings/
 
 
 build/
+dlist/
+.env
