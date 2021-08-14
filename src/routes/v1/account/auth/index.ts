@@ -1,11 +1,19 @@
 import express from 'express'
 const router = express.Router()
-import { RESTResp, getJWTSecret } from '@project-miuna/utils'
+import firebase from 'firebase-admin';
+import { RESTResp, authUser } from '@project-miuna/utils'
 router.post('/', (_, res) => {
-  console.log(_.body.test);
-  let secret = getJWTSecret();
-  console.log(secret);
-  return res.status(200).send('OK')
+  let body = _.body;
+  console.log(body);
+  authUser(body.username,body.password).then((result) => {
+    if (result.success) {
+      return res.status(200).send(result.message + ' TOKEN: ' + result.token)
+    }else {
+      return res.status(400).send(result.message)
+    }
+  }).catch(error => {
+    return res.status(400).send(error.message)
+  })
 })
 router.all('/', (_, res) => {
   const response: RESTResp<never> = {

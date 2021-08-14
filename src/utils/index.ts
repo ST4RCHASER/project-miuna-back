@@ -1,2 +1,7 @@
 export type { RESTResp } from './types/RESTResp'
+export type { User } from './types/User'
 export { getJWTSecret } from './scripts/getJWTSecret'
+export { getFirebaseConfig } from './scripts/getFirebaseConfig'
+export { authUser } from './scripts/authUser'
+export { getUserByToken } from './scripts/getUserByToken'
+export { getUserByUsername } from './scripts/getUserByUsername'
