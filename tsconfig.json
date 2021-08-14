@@ -1,26 +1,30 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "rootDir": ".",
-    "outDir": "./dlist",  
+    "lib": [
+      "es5",
+      "es6",
+      "dom"
+    ],
+    "outDir": "./dlist",
     "sourceMap": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "target": "es5",
+    "target": "ES2018",
     "module": "commonjs",
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true, 
+    "esModuleInterop": true,
     "strictPropertyInitialization": false,
     "strict": true,
-    "baseUrl": ".",          
+    "baseUrl": "./src",
     "moduleResolution": "node",
     "paths": {
       "@project-miuna/utils": [
-        "src/utils/index.ts",
+        "utils/index.ts"
       ],
     },
   },
