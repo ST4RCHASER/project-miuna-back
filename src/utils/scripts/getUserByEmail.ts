@@ -1,11 +1,11 @@
 import firebase from 'firebase-admin';
 import { User } from '@project-miuna/utils'
-export const getUserByUsername = async (username: string): Promise<User> => {
+export const getUserByEmail = async (email: string): Promise<User> => {
     return new Promise((resolve, reject) => {
         let db = firebase.database();
         let userDB = db.ref("users");
-        userDB.orderByChild("lowerUsername")
-            .equalTo(username.toLowerCase())
+        userDB.orderByChild("email")
+            .equalTo(email.toLowerCase())
             .limitToFirst(1)
             .once("value", function (snapshot) {
                 let this_user = {

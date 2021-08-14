@@ -1,10 +1,10 @@
+import 'module-alias/register';
 import cors from 'cors'
 import express from 'express'
 import { v1 } from './routes'
-import 'module-alias/register';
 import { RESTResp, getFirebaseConfig } from '@project-miuna/utils'
 import firebase from 'firebase-admin';
-require('module-alias/register')
+
 require('dotenv').config()
 const server = express()
 server.use(cors())

@@ -1,13 +1,26 @@
 import express from 'express'
 const router = express.Router()
-import { RESTResp, getJWTSecret } from '@project-miuna/utils'
-router.get('/', (_, res) => {
-    const response: RESTResp<never> = {
-        success: false,
-        statusCode: 200,
-        message: 'user info obtained',
-    }
-    res.status(200).send(response)
+import { RESTResp, requireAuth, getUserByRequest, User } from '@project-miuna/utils'
+router.get('/', requireAuth, (_, res) => {
+    getUserByRequest(_).then(user => {
+        let userEdited:any = user;
+        delete userEdited.raw;
+        delete userEdited.password;
+        const response: RESTResp<User> = {
+            success: false,
+            statusCode: 200,
+            message: 'user info obtained',
+            content: userEdited
+        }
+        res.status(200).send(response)
+    }).catch(err => {
+        const response: RESTResp<User> = {
+            success: false,
+            statusCode: 503,
+            message: 'User obtain failed: ' +err,
+        }
+        res.status(503).send(response)
+    })
 })
 router.all('/', (_, res) => {
     const response: RESTResp<never> = {
