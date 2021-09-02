@@ -8,3 +8,7 @@ router.use('/auth', auth)
 router.use('/reg', reg)
 router.use('/info', info)
 export default router
+
+
+
+
