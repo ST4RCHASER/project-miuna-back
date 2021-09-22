@@ -11,6 +11,7 @@ export class MongoDBClient {
             this.connection = await mongoose.connect(this.connString);
             (global as any).db = this;
             console.log(`connection created : ${this.connString}`)
+            this.registerSchema();
         } catch (e) {
             console.log(`SQL connection failed : ${e}`)
         }
@@ -24,8 +25,13 @@ export class MongoDBClient {
             username: String,
             lowerUsername: String,
             password: String,
+            created: {
+                type: String,
+                default: new Date().getTime()
+            }
         })
         this.models[0] = this.getConnection().model('user', user);
+        console.log('Schema registered');
     }
     getUserModel(): Model<any> {
         return this.models[0];
