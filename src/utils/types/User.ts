@@ -4,5 +4,7 @@ export interface User {
   lowerUsername: string
   email: string
   password: string
+  created: string
+  class: number
   raw: any
 }

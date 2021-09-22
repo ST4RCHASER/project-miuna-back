@@ -25,6 +25,10 @@ export class MongoDBClient {
             username: String,
             lowerUsername: String,
             password: String,
+            class: {
+                type: Number,
+                default: 0
+            },
             created: {
                 type: String,
                 default: new Date().getTime()

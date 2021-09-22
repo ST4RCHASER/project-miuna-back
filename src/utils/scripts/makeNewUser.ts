@@ -8,6 +8,7 @@ export const makeNewUser = (db: MongoDBClient, email: string, username: string, 
             username: username,
             lowerUsername: username.toLowerCase(),
             password: password,
+            class: 0,
             created: new Date().getTime(),
         })
         if (result != null && result._id != null) {
