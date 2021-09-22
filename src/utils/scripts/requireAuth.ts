@@ -1,8 +1,9 @@
-import { getUserByToken, RESTResp } from '@project-miuna/utils'
+import { getUserByToken, MongoDBClient, RESTResp } from '@project-miuna/utils'
 export const requireAuth = (_: any, res: any, next: any) => {
     if (typeof _.headers['authorization'] != 'undefined') {
+        let db: MongoDBClient = (_ as any).db;
         let token = _.headers['authorization'].replace('Bearer ', '');
-        getUserByToken(token).then(userInfo => {
+        getUserByToken(db, token).then(userInfo => {
             next();
         }).catch(error => {
             const response: RESTResp<never> = {

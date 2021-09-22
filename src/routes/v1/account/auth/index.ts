@@ -1,14 +1,14 @@
 import express from 'express'
 const router = express.Router()
-import firebase from 'firebase-admin';
-import { RESTResp, authUser } from '@project-miuna/utils'
+import { RESTResp, authUser, MongoDBClient } from '@project-miuna/utils'
 router.post('/', (_, res) => {
   let body = _.body;
+  let db: MongoDBClient = (_ as any).db;
   console.log(body);
-  authUser(body.username,body.password).then((result) => {
+  authUser(db, body.username, body.password).then((result) => {
     if (result.success) {
       return res.status(200).send(result.message + ' TOKEN: ' + result.token)
-    }else {
+    } else {
       return res.status(400).send(result.message)
     }
   }).catch(error => {

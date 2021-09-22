@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
-import { getJWTSecret, getUserByUsername } from '@project-miuna/utils'
+import { getJWTSecret, getUserByInfo, MongoDBClient } from '@project-miuna/utils'
 interface AuthResult {
     success: boolean,
     message: string,
     token?: string
 }
-export const authUser = async (usernameOrEmail: string, password: string): Promise<AuthResult> => {
+export const authUser = async (db: MongoDBClient, usernameOrEmail: string, password: string): Promise<AuthResult> => {
     return new Promise((resolve, reject) => {
-        getUserByUsername(usernameOrEmail).then(thisUser => {
+        getUserByInfo(db, usernameOrEmail).then(thisUser => {
             if (thisUser.password === password) {
                 const payload = { id: thisUser.id, sub: usernameOrEmail, username: thisUser.username, email: thisUser.email, iat: new Date().getTime() };
                 const token = jwt.sign(payload, getJWTSecret() as string, { expiresIn: '120d' })

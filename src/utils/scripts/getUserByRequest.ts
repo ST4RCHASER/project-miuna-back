@@ -6,7 +6,7 @@ export const getUserByRequest = (request: express.Request): Promise<User> => {
             if (typeof request == 'undefined' || typeof request.headers == 'undefined' || typeof request.headers['authorization'] == 'undefined') return reject('Invalid token');
             let token = request.headers['authorization'].replace('Bearer ', '');
             if (typeof token == 'string') {
-                getUserByToken(token).then(userInfo => {
+                getUserByToken((request as any).db, token).then(userInfo => {
                     if (typeof userInfo == `undefined` || typeof userInfo == `string` || userInfo == null || userInfo.raw == null) {
                         reject('User not found for this request');
                     } else {

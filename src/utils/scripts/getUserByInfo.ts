@@ -1,9 +1,13 @@
 import { MongoDBClient, User } from '@project-miuna/utils'
-export const getUserByEmail = async (db: MongoDBClient, email: string): Promise<User> => {
+export const getUserByInfo = async (db: MongoDBClient, username: string): Promise<User> => {
     return new Promise(async (resolve, reject) => {
         let userDB = db.getUserModel();
         let userInfo = await userDB.findOne({
-            email: email.toLowerCase()
+            $or: [
+                { lowerUsername: username.toLowerCase() },
+                { email: username.toLowerCase() },
+                { username: username }
+            ]
         });
         if (userInfo == null || typeof userInfo === 'undefined') return reject('User not found');
         return resolve({

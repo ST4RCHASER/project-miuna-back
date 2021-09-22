@@ -2,14 +2,20 @@ import 'module-alias/register';
 import cors from 'cors'
 import express from 'express'
 import { v1 } from './routes'
-import { RESTResp, getFirebaseConfig } from '@project-miuna/utils'
-import firebase from 'firebase-admin';
+import { RESTResp, MongoDBClient } from '@project-miuna/utils'
 
 require('dotenv').config()
 const server = express()
 server.use(cors())
 server.use(express.json())
-firebase.initializeApp(getFirebaseConfig())
+console.log(process.env.MONGO_CON_STR)
+let mongo = new MongoDBClient(process.env.MONGO_CON_STR as string);
+mongo.start();
+server.use(async (req, res, next) => {
+  console.log('Time:', Date.now());
+  (req as any).db = mongo;
+  next()
+});
 server.get('/', (req, res) => {
   const response: RESTResp<never> = {
     success: true,

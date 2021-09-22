@@ -1,33 +1,20 @@
-import firebase from 'firebase-admin';
-import { User } from '@project-miuna/utils'
-export const getUserByUsername = async (username: string): Promise<User> => {
-    return new Promise((resolve, reject) => {
-        let db = firebase.database();
-        let userDB = db.ref("users");
-        userDB.orderByChild("lowerUsername")
-            .equalTo(username.toLowerCase())
-            .limitToFirst(1)
-            .once("value", function (snapshot) {
-                let this_user = {
-                    key: snapshot.key,
-                    value: snapshot.val(),
-                };
-                if (this_user.value == null) {
-                    reject('User not found');
-                } else {
-                    let userID = Object.keys(this_user.value)[0];
-                    this_user.value = this_user.value[Object.keys(this_user.value)[0]];
-                    resolve({
-                        id: userID,
-                        username: this_user.value.username,
-                        lowerUsername: this_user.value.lowerUsername,
-                        email: this_user.value.email,
-                        password: this_user.value.password,
-                        raw: this_user
-                    })
-                }
-            }).then(error => {
-                reject(error);
-            });
+import { MongoDBClient, User } from '@project-miuna/utils'
+export const getUserByUsername = async (db: MongoDBClient, username: string): Promise<User> => {
+    return new Promise(async (resolve, reject) => {
+        let userDB = db.getUserModel();
+        let userInfo = await userDB.findOne({
+            $or: [
+                { lowerUsername: username.toLowerCase() },
+            ]
+        });
+        if (userInfo == null || typeof userInfo === 'undefined') return reject('User not found');
+        return resolve({
+            id: userInfo._id,
+            username: userInfo.username,
+            lowerUsername: userInfo.lowerUsername,
+            email: userInfo.email,
+            password: userInfo.password,
+            raw: userInfo
+        });
     })
 }
