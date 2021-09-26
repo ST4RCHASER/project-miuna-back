@@ -2,7 +2,7 @@ import mongoose, { Mongoose, Schema, Model } from "mongoose";
 export class MongoDBClient {
     public connString: string;
     private connection: Mongoose;
-    private models: Model<any>[];
+    private models: Model<any>[] = [];
     constructor(connString: string) {
         this.connString = connString;
     }
@@ -12,8 +12,8 @@ export class MongoDBClient {
             (global as any).db = this;
             console.log(`connection created : ${this.connString}`)
             this.registerSchema();
-        } catch (e) {
-            console.log(`SQL connection failed : ${e}`)
+        } catch (e: any) {
+            console.log(`SQL connection failed : ${e.stack || e}`)
         }
     }
     getConnection(): Mongoose {
@@ -34,10 +34,34 @@ export class MongoDBClient {
                 default: new Date().getTime()
             }
         })
-        this.models[0] = this.getConnection().model('user', user);
+        const event = new Schema({
+            name: String,
+            ownerID: String,
+            time: Object,
+            state: {
+                type: Number,
+                default: 0
+            },
+            options: Object,
+        })
+        const form = new Schema({
+            created: String,
+            eventID: String,
+            joinFrom: Array,
+            leaveFrom: Array
+        })
+        this.models.push(this.getConnection().model('user', user));
+        this.models.push(this.getConnection().model('event', event));
+        this.models.push(this.getConnection().model('form', form));
         console.log('Schema registered');
     }
     getUserModel(): Model<any> {
         return this.models[0];
+    }
+    getEventModel(): Model<any> {
+        return this.models[1];
+    }
+    getFormModel(): Model<any> {
+        return this.models[2];
     }
 }

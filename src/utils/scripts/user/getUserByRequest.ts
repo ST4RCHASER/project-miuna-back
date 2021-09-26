@@ -1,6 +1,6 @@
-import { User, getJWTSecret, getUserByToken } from '@project-miuna/utils'
+import { User, getJWTSecret, getUserByToken, MinuRequest } from '@project-miuna/utils'
 import express from 'express'
-export const getUserByRequest = (request: express.Request): Promise<User> => {
+export const getUserByRequest = (request: MinuRequest): Promise<User> => {
     return new Promise<User>((resolve, reject) => {
         try {
             if (typeof request == 'undefined' || typeof request.headers == 'undefined' || typeof request.headers['authorization'] == 'undefined') return reject('Invalid token');

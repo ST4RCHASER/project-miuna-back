@@ -1,18 +1,35 @@
 import express from 'express'
 const router = express.Router()
-import { RESTResp, authUser, MongoDBClient } from '@project-miuna/utils'
+import { RESTResp, authUser, MongoDBClient, MinuRequest } from '@project-miuna/utils'
 router.post('/', (_, res) => {
-  let body = _.body;
-  let db: MongoDBClient = (_ as any).db;
+  let req = <MinuRequest>_;
+  let body = req.body;
+  let db: MongoDBClient = (req as any).db;
   console.log(body);
   authUser(db, body.username, body.password).then((result) => {
     if (result.success) {
-      return res.status(200).send(result.message + ' TOKEN: ' + result.token)
+      const response: RESTResp<string> = {
+        success: true,
+        statusCode: 200,
+        message: result.message,
+        content: result.token
+      }
+      res.status(200).send(response)
     } else {
-      return res.status(400).send(result.message)
+      const response: RESTResp<never> = {
+        success: false,
+        statusCode: 400,
+        message: result.message,
+      }
+      res.status(400).send(response)
     }
   }).catch(error => {
-    return res.status(400).send(error.message)
+    const response: RESTResp<never> = {
+      success: false,
+      statusCode: 400,
+      message: error,
+    }
+    res.status(400).send(response)
   })
 })
 router.all('/', (_, res) => {

@@ -1,13 +1,14 @@
 import express from 'express'
 const router = express.Router()
-import { RESTResp, requireAuth, getUserByRequest, User } from '@project-miuna/utils'
+import { RESTResp, requireAuth, getUserByRequest, User, MinuRequest } from '@project-miuna/utils'
 router.get('/', requireAuth, (_, res) => {
-    getUserByRequest(_).then(user => {
-        let userEdited:any = user;
+    let req = <MinuRequest>_;
+    getUserByRequest(req).then(user => {
+        let userEdited: any = user;
         delete userEdited.raw;
         delete userEdited.password;
         const response: RESTResp<User> = {
-            success: false,
+            success: true,
             statusCode: 200,
             message: 'user info obtained',
             content: userEdited
@@ -17,7 +18,7 @@ router.get('/', requireAuth, (_, res) => {
         const response: RESTResp<User> = {
             success: false,
             statusCode: 503,
-            message: 'User obtain failed: ' +err,
+            message: 'User obtain failed: ' + err,
         }
         res.status(503).send(response)
     })

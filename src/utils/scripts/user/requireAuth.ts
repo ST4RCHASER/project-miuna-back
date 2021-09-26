@@ -4,6 +4,7 @@ export const requireAuth = (_: any, res: any, next: any) => {
         let db: MongoDBClient = (_ as any).db;
         let token = _.headers['authorization'].replace('Bearer ', '');
         getUserByToken(db, token).then(userInfo => {
+            (_ as any).user = userInfo;
             next();
         }).catch(error => {
             const response: RESTResp<never> = {
@@ -11,6 +12,7 @@ export const requireAuth = (_: any, res: any, next: any) => {
                 statusCode: 403,
                 message: 'Account check failed, please re-login.',
             }
+            console.log(error);
             res.status(403).send(response)
         })
     } else {

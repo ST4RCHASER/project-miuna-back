@@ -6,35 +6,56 @@ router.post('/', async (_, res) => {
   let body = _.body;
   let db: MongoDBClient = (_ as any).db;
   try {
-    let user0 = await getUserByEmail(db, body.email);
-    let user1 = await getUserByUsername(db, body.username);
-    if (user0) {
-      return res.status(409).send({
+    if (!body || !body.email || !body.username || !body.password) {
+      console.log(body);
+      const response: RESTResp<never> = {
         success: false,
         statusCode: 409,
-        message: 'This email has already been used.',
-      })
+        message: 'missing some field',
+      }
+      return res.status(409).send(response);
     }
     if (blacklistDomain.includes(_.body.email)) {
-      return res.status(409).json({
-        status: false,
-        message: 'This email domain cannot be used.'
-      });
-    }
-    if (user1) {
-      return res.status(409).send({
+      const response: RESTResp<never> = {
         success: false,
         statusCode: 409,
-        message: 'This username has already been used.',
-      })
+        message: 'this email domain cannot be used.',
+      }
+      return res.status(409).send(response);
     }
+    try {
+      await getUserByEmail(db, body.email);
+      const response: RESTResp<never> = {
+        success: false,
+        statusCode: 409,
+        message: 'this email has already been used.',
+      }
+      return res.status(409).send(response);
+    } catch (ec0) { }
+    try {
+      await getUserByUsername(db, body.username);
+      const response: RESTResp<never> = {
+        success: false,
+        statusCode: 409,
+        message: 'this username has already been used.',
+      }
+      return res.status(409).send(response);
+    } catch (ec1) { }
     makeNewUser(db, body.email, body.username, body.password)
+    const response: RESTResp<never> = {
+      success: true,
+      statusCode: 201,
+      message: 'user created',
+    }
+    return res.status(201).send(response);
   } catch (e) {
-    res.status(405).send({
+    console.error('ERROR:', e)
+    const response: RESTResp<never> = {
       success: false,
       statusCode: 405,
       message: 'invalid from',
-    })
+    }
+    return res.status(405).send(response);
   }
 })
 router.all('/', (_, res) => {
@@ -43,6 +64,6 @@ router.all('/', (_, res) => {
     statusCode: 405,
     message: 'invalid method',
   }
-  res.status(405).send(response)
+  return res.status(405).send(response);
 })
 export default router
