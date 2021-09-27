@@ -5,6 +5,7 @@ router.post('/', async (_, res) => {
   const blacklistDomain = ['starchaser.me'];
   let body = _.body;
   let db: MongoDBClient = (_ as any).db;
+  console.log(body)
   try {
     if (!body || !body.email || !body.username || !body.password) {
       console.log(body);

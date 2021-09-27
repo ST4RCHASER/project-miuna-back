@@ -12,7 +12,7 @@ console.log(process.env.MONGO_CON_STR)
 let mongo = new MongoDBClient(process.env.MONGO_CON_STR as string);
 mongo.start();
 server.use(async (req, res, next) => {
-  console.log('Time:', Date.now());
+  console.log('Time:', Date.now(), 'METHOD:', req.method, "PATH:", req.url);
   (req as any).db = mongo;
   next()
 });

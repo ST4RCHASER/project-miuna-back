@@ -22,14 +22,14 @@ export const authUser = async (db: MongoDBClient, usernameOrEmail: string, passw
                 } else {
                     reject({
                         success: false,
-                        message: "Username/Email or Password is incorrect3",
+                        message: "Username/Email or Password is incorrect",
                     });
                 }
             });
         }).catch(e => {
             reject({
                 success: false,
-                message: "Username/Email or Password is incorrect2",
+                message: "Username/Email or Password is incorrect",
             });
         })
     })

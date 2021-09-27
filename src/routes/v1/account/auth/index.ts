@@ -27,7 +27,7 @@ router.post('/', (_, res) => {
     const response: RESTResp<never> = {
       success: false,
       statusCode: 400,
-      message: error,
+      message: error.message,
     }
     res.status(400).send(response)
   })
