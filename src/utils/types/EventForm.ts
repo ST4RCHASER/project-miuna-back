@@ -1,9 +1,9 @@
 import { FormMeta } from "./FormMeta";
 export interface EventForm {
     id: string
-    created: string
+    readonly created: string
     eventID: string
     join: FormMeta[]
     leave: FormMeta[]
-    raw?: any
+    readonly raw?: any
 }

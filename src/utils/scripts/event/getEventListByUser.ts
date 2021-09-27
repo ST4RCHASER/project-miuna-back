@@ -1,7 +1,7 @@
-import { MongoDBClient, User, Event, getFormByEventID } from '@project-miuna/utils'
+import { MongoDBClient, User, Event, getFormByEventID, ModelType } from '@project-miuna/utils'
 export const getEventListByUser = async (db: MongoDBClient, user: User): Promise<Event[]> => {
     return new Promise(async (resolve) => {
-        let eventDB = db.getEventModel();
+        let eventDB = db.getModel(ModelType.EVENT);
         let eList: Event[] = [];
         let eventQuery = await eventDB.find({
             ownerID: user.id
@@ -23,7 +23,7 @@ export const getEventListByUser = async (db: MongoDBClient, user: User): Promise
                         start: doc.time.start,
                         end: doc.time.end,
                     },
-                    form: form,
+                    form: undefined,
                     options: doc.options,
                     state: doc.state,
                     raw: doc,

@@ -1,10 +1,10 @@
-import { MongoDBClient, Event, getFormByEventID } from '@project-miuna/utils'
-export const getEventInfoByID = async (db: MongoDBClient, id: string): Promise<Event> => {
+import { MongoDBClient, Event, getFormByEventID, ModelType } from '@project-miuna/utils'
+export const getEventByID = async (db: MongoDBClient, id: string): Promise<Event> => {
     return new Promise(async (resolve, reject) => {
-        let eventDB = db.getEventModel();
+        let eventDB = db.getModel(ModelType.EVENT);
         let eventInfo = await eventDB.findById(id);
-        if (eventInfo == null || typeof eventInfo === 'undefined') return reject('Event not found');
-        let form = null;
+        if (eventInfo == null || typeof eventInfo === 'undefined') return reject('event not found');
+        let form = undefined;
         try {
             if(eventInfo.id) {
                 form = await getFormByEventID(db, eventInfo.id);

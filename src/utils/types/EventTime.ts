@@ -1,5 +1,5 @@
 export interface EventTime {
-    created: string
+    readonly created: string
     start: string
     end: string
 }

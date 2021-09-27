@@ -1,7 +1,7 @@
-import { MongoDBClient, User } from '@project-miuna/utils'
+import { ModelType, MongoDBClient, User } from '@project-miuna/utils'
 export const getUserByUsername = async (db: MongoDBClient, username: string): Promise<User> => {
     return new Promise(async (resolve, reject) => {
-        let userDB = db.getUserModel();
+        let userDB = db.getModel(ModelType.USERS);
         let userInfo = await userDB.findOne({
             $or: [
                 { lowerUsername: username.toLowerCase() },

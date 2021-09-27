@@ -1,8 +1,9 @@
 import { MongoDBClient } from "utils/MongoDBClient";
 import bcrypt from 'bcrypt';
+import { ModelType } from "@project-miuna/utils";
 export const makeNewUser = (db: MongoDBClient, email: string, username: string, password: string): Promise<string> => {
     return new Promise<string>(async (resolve, reject) => {
-        let userDB = db.getUserModel();
+        let userDB = db.getModel(ModelType.USERS);
         let saltRound = process.env.SALT_ROUND || "3"
         bcrypt.hash(password, parseInt(saltRound), async (error, hash) => {
             if (error) {

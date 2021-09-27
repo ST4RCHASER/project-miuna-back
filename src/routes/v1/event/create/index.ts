@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
-import { RESTResp, requireAuth, MinuRequest, makeNewEvent } from '@project-miuna/utils'
-router.get('/', requireAuth, async (_, res) => {
+import { RESTResp, requireAuth, MinuRequest, makeNewEvent, EventState } from '@project-miuna/utils'
+router.post('/', requireAuth, async (_, res) => {
     let req = <MinuRequest>_;
     let body = req.body;
     if (!body || !body.name || !body.time || !body.time.start || !body.time.end) {
@@ -21,8 +21,8 @@ router.get('/', requireAuth, async (_, res) => {
             start: body.time.start,
             end: body.time.end
         },
-        form: null,
-        state: 0
+        form: undefined,
+        state: EventState.ENABLED
     });
     const response: RESTResp<never> = {
         success: true,

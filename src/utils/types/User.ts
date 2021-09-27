@@ -6,5 +6,5 @@ export interface User {
   password: string
   created: string
   class: number
-  raw: any
+  readonly raw: any
 }

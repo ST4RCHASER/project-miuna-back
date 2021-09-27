@@ -1,4 +1,5 @@
 import mongoose, { Mongoose, Schema, Model } from "mongoose";
+import { ModelType } from ".";
 export class MongoDBClient {
     public connString: string;
     private connection: Mongoose;
@@ -40,28 +41,49 @@ export class MongoDBClient {
             time: Object,
             state: {
                 type: Number,
-                default: 0
+                default: 1
             },
             options: Object,
         })
         const form = new Schema({
-            created: String,
             eventID: String,
-            joinFrom: Array,
-            leaveFrom: Array
+            joinForm: Array,
+            leaveForm: Array,
+            created: {
+                type: String,
+                default: new Date().getTime()
+            }
+        })
+        const rec_event = new Schema({
+            ownerID: String,
+            eventID: String,
+            timeJoin: String,
+            timeLeave: {
+                type: String,
+                default: "-1"
+            },
+            created: {
+                type: String,
+                default: new Date().getTime()
+            }
+        })
+        const rec_form = new Schema({
+            ownerID: String,
+            formID: String,
+            formData: Array,
+            created: {
+                type: String,
+                default: new Date().getTime()
+            }
         })
         this.models.push(this.getConnection().model('user', user));
         this.models.push(this.getConnection().model('event', event));
         this.models.push(this.getConnection().model('form', form));
+        this.models.push(this.getConnection().model('event_record', rec_event));
+        this.models.push(this.getConnection().model('form_record', rec_form));
         console.log('Schema registered');
     }
-    getUserModel(): Model<any> {
-        return this.models[0];
-    }
-    getEventModel(): Model<any> {
-        return this.models[1];
-    }
-    getFormModel(): Model<any> {
-        return this.models[2];
+    getModel(type: ModelType): Model<any> {
+        return this.models[type];
     }
 }
