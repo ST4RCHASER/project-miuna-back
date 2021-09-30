@@ -34,5 +34,5 @@ server.all('*', (_, res) => {
   return res.status(404).send(response)
 })
 console.log('Server started...');
-server.listen(process.env.NODE_PORT || 3000)
+server.listen(process.env.PORT || 3000)
 export default server
