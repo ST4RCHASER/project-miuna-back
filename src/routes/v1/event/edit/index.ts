@@ -50,7 +50,7 @@ router.put('/:id', requireAuth, async (_, res) => {
     const response: RESTResp<never> = {
         success: true,
         statusCode: 200,
-        message: 'event deleted',
+        message: 'event updated',
     }
     return res.status(200).send(response);
 });
