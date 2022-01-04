@@ -1,10 +1,19 @@
 import express from 'express'
 const router = express.Router()
 import { RESTResp, requireAuth, Event, findUserEventRecordByEventID, MinuRequest, getEventByID, EventState, getEventRecordByID, leaveUserFromEvent, joinUserToEvent, ModelType } from '@project-miuna/utils'
-router.delete('/:id', requireAuth, async (_, res) => {
+router.put('/:id', requireAuth, async (_, res) => {
     let req: MinuRequest = _ as any;
-    //Get event by id and set state to delete
     let event: Event = await getEventByID(req.db, req.params.id);
+    let body = req.body;
+    if (!body || !body.name || !body.time || !body.time.start || !body.time.end || !req.params.id) {
+        console.log(body);
+        const response: RESTResp<never> = {
+            success: false,
+            statusCode: 409,
+            message: 'missing some field',
+        }
+        return res.status(409).send(response);
+    }
     if (!event) {
         const response: RESTResp<never> = {
             success: false,
@@ -16,8 +25,8 @@ router.delete('/:id', requireAuth, async (_, res) => {
     if (event.state == EventState.DELETED) {
         const response: RESTResp<never> = {
             success: false,
-            statusCode: 409,
-            message: 'this event is already deleted',
+            statusCode: 403,
+            message: 'event not found',
         }
         return res.status(409).send(response);
     }
@@ -30,7 +39,13 @@ router.delete('/:id', requireAuth, async (_, res) => {
         return res.status(409).send(response);
     }
     await req.db.getModel(ModelType.EVENT).findByIdAndUpdate(req.params.id, {
-        state: EventState.DELETED
+        name: body.name || 'unnamed event',
+        ownerID: req.user.id,
+        time: {
+            created: new Date().getTime().toString(),
+            start: body.time.start,
+            end: body.time.end
+        }
     }, { new: true });
     const response: RESTResp<never> = {
         success: true,
