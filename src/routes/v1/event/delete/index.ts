@@ -21,7 +21,7 @@ router.delete('/:id', requireAuth, async (_, res) => {
         }
         return res.status(409).send(response);
     }
-    if (event.state !== EventState.DELETED) {
+    if (event.state == EventState.DELETED) {
         const response: RESTResp<never> = {
             success: false,
             statusCode: 409,
