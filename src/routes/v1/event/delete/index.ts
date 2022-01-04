@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 import { RESTResp, requireAuth, Event, findUserEventRecordByEventID, MinuRequest, getEventByID, EventState, getEventRecordByID, leaveUserFromEvent, joinUserToEvent, ModelType } from '@project-miuna/utils'
-router.post('/:id', requireAuth, async (_, res) => {
+router.delete('/:id', requireAuth, async (_, res) => {
     let req: MinuRequest = _ as any;
     //Get event by id and set state to delete
     let event: Event = await getEventByID(req.db, req.params.id);
