@@ -11,4 +11,5 @@ export interface Event {
     options?: EventOptions
     raw?: any
     form?: EventForm
+    description?: string
 }

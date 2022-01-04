@@ -26,7 +26,21 @@ router.get('/:id', requireAuth, async (_, res) => {
             success: true,
             statusCode: 200,
             message: 'event found',
-            content: event
+            content: {
+                id: event.id,
+                name: event.name,
+                ownerID: event.ownerID,
+                time: {
+                    created: event.time.created,
+                    start: event.time.start,
+                    end: event.time.end,
+                },
+                form: event.form,
+                options: event.options,
+                state: event.state,
+                raw: event,
+                description: event.description || ' ',
+            }
         }
         return res.status(200).send(response);
     } catch (e) {

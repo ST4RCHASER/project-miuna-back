@@ -44,6 +44,7 @@ export class MongoDBClient {
                 default: 1
             },
             options: Object,
+            description: String,
         })
         const form = new Schema({
             eventID: String,

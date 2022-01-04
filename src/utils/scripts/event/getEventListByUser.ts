@@ -28,6 +28,7 @@ export const getEventListByUser = async (db: MongoDBClient, user: User, filter: 
                     options: doc.options,
                     state: doc.state,
                     raw: doc,
+                    description: doc.description || ' ',
                 })
             }
         }
