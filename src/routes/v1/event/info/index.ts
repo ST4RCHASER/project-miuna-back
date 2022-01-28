@@ -21,6 +21,7 @@ router.get('/:id', requireAuth, async (_, res) => {
             }
             return res.status(403).send(response);
         }
+        let count = await req.db.getModel(ModelType.EVENT_RECORDS).countDocuments({eventID: event.id, ownerid: req.user.id, timeLeave: -1});
         //send event infomation
         const response: RESTResp<object> = {
             success: true,
@@ -40,10 +41,12 @@ router.get('/:id', requireAuth, async (_, res) => {
                 state: event.state,
                 raw: event,
                 description: event.description || ' ',
+                is_joining: count > 0,
             }
         }
         return res.status(200).send(response);
     } catch (e) {
+        console.log(e);
         return res.status(500).send(
             {
                 success: false,

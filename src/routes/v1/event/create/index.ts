@@ -17,10 +17,11 @@ router.post('/', requireAuth, async (_, res) => {
         name: body.name || 'unnamed event',
         ownerID: req.user.id,
         time: {
-            created: new Date().getTime().toString(),
-            start: body.time.start,
-            end: body.time.end
+            created: new Date().getTime(),
+            start: new Date(body.time.start).getTime(),
+            end: new Date(body.time.end).getTime(),
         },
+        description: body.description || '',
         form: undefined,
         state: EventState.ENABLED
     });

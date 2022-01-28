@@ -31,14 +31,22 @@ export class MongoDBClient {
                 default: 0
             },
             created: {
-                type: String,
+                type: Date,
                 default: new Date().getTime()
             }
         })
         const event = new Schema({
             name: String,
             ownerID: String,
-            time: Object,
+            time: {
+                created: {
+                    default: new Date().getTime(),
+                    type: Date
+                },
+                start: Date,
+                end: Date,
+                type: Object
+            },
             state: {
                 type: Number,
                 default: 1
@@ -58,13 +66,13 @@ export class MongoDBClient {
         const rec_event = new Schema({
             ownerID: String,
             eventID: String,
-            timeJoin: String,
+            timeJoin: Date,
             timeLeave: {
-                type: String,
+                type: Date,
                 default: "-1"
             },
             created: {
-                type: String,
+                type: Date,
                 default: new Date().getTime()
             }
         })
@@ -73,7 +81,7 @@ export class MongoDBClient {
             formID: String,
             formData: Array,
             created: {
-                type: String,
+                type: Date,
                 default: new Date().getTime()
             }
         })

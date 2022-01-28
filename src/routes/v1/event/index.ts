@@ -6,6 +6,8 @@ import scan from './scan'
 import edit from './edit'
 import info from './info'
 import join from './join'
+import leave from './leave'
+import joined from './joined'
 const router = express.Router()
 
 router.use('/list', list)
@@ -15,6 +17,8 @@ router.use('/scan', scan)
 router.use('/edit', edit)
 router.use('/info', info)
 router.use('/join', join)
+router.use('/leave', leave)
+router.use('/joined', joined)
 
 export default router
 

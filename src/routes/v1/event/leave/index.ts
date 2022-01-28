@@ -32,27 +32,23 @@ router.post('/', requireAuth, async (_, res) => {
             return res.status(404).send(response)
         }
         try {
-            let count = await req.db.getModel(ModelType.EVENT_RECORDS).countDocuments({eventID: body.id, ownerid: req.user.id, timeLeave: -1});
-            if(count > 0){
+            let count = await req.db.getModel(ModelType.EVENT_RECORDS).findOne({eventID: body.id, ownerid: req.user.id, timeLeave: -1});
+            if(count != null){
+                await req.db.getModel(ModelType.EVENT_RECORDS).findByIdAndUpdate(count.id, {timeLeave: new Date().getTime()});
+                const response: RESTResp<never> = {
+                    success: true,
+                    statusCode: 200,
+                    message: 'event leaved successfully.',
+                }
+                return res.status(200).send(response)   
+            }else {
                 const response: RESTResp<never> = {
                     success: false,
                     statusCode: 409,
-                    message: 'you have already joined this event.',
+                    message: 'You have not joined this event.',
                 }
                 return res.status(409).send(response)
             }
-            req.db.getModel(ModelType.EVENT_RECORDS).create({
-                eventID: body.id,
-                ownerid: req.user.id,
-                timeJoin: Date.now(),
-                timeLeave: -1
-            });
-            const response: RESTResp<never> = {
-                success: true,
-                statusCode: 200,
-                message: 'event joined successfully.',
-            }
-            return res.status(200).send(response)
         } catch (err: any) {
             console.log(err.stack)
             const response: RESTResp<never> = {
