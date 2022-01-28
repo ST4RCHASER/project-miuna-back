@@ -34,7 +34,9 @@ router.get('/:id', requireAuth, async (_, res) => {
                 time: {
                     created: event.time.created,
                     start: event.time.start,
+                    readable_start: new Date(event.time.start).toLocaleString(),
                     end: event.time.end,
+                    readable_end: new Date(event.time.end).toLocaleString(),
                 },
                 form: event.form,
                 options: event.options,

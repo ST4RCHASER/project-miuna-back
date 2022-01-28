@@ -37,7 +37,7 @@ export class MongoDBClient {
         })
         const event = new Schema({
             name: String,
-            ownerID: String,
+            ownerID: Schema.Types.ObjectId,
             time: {
                 created: {
                     default: new Date().getTime(),
@@ -64,8 +64,8 @@ export class MongoDBClient {
             }
         })
         const rec_event = new Schema({
-            ownerID: String,
-            eventID: String,
+            ownerID: Schema.Types.ObjectId,
+            eventID: Schema.Types.ObjectId,
             timeJoin: Date,
             timeLeave: {
                 type: Date,
@@ -77,8 +77,8 @@ export class MongoDBClient {
             }
         })
         const rec_form = new Schema({
-            ownerID: String,
-            formID: String,
+            ownerID: Schema.Types.ObjectId,
+            formID: Schema.Types.ObjectId,
             formData: Array,
             created: {
                 type: Date,

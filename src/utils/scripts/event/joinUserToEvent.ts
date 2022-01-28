@@ -20,6 +20,7 @@ export const joinUserToEvent = async (db: MongoDBClient, userID: string, eventID
                 }
             }
         }
+        console.log('uinfo',userInfo)
         let record: EventRecord = {
             ownerID: userInfo.id,
             eventID: eventInfo.id,

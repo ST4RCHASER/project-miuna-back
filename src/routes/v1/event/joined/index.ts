@@ -17,8 +17,13 @@ router.get('/', requireAuth, async (_, res) => {
     for (const res of result) {
         let event = await req.db.getModel(ModelType.EVENT).findById(res.eventID);
         if(event){
-            if(res.timeLeave == -1 && event.state == 1) {
-                recordList.push(res);
+            if(new Date(res.timeLeave).getTime() == -1 && event.state == 1) {
+
+                recordList.push({
+                    record: res,
+                    event: event,
+                    eventOwner: await req.db.getModel(ModelType.USERS).findById(event.ownerID),
+                });
             }
         }
     }

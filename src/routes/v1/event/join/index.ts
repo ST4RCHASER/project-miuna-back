@@ -32,7 +32,7 @@ router.post('/', requireAuth, async (_, res) => {
             return res.status(404).send(response)
         }
         try {
-            let count = await req.db.getModel(ModelType.EVENT_RECORDS).countDocuments({eventID: body.id, ownerid: req.user.id, timeLeave: -1});
+            let count = await req.db.getModel(ModelType.EVENT_RECORDS).countDocuments({eventID: body.id, ownerID: req.user.id, timeLeave: -1});
             if(count > 0){
                 const response: RESTResp<never> = {
                     success: false,
@@ -43,7 +43,7 @@ router.post('/', requireAuth, async (_, res) => {
             }
             req.db.getModel(ModelType.EVENT_RECORDS).create({
                 eventID: body.id,
-                ownerid: req.user.id,
+                ownerID: req.user.id,
                 timeJoin: Date.now(),
                 timeLeave: -1
             });
