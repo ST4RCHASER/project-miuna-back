@@ -1,7 +1,7 @@
 import { MongoDBClient } from "utils/MongoDBClient";
 import bcrypt from 'bcrypt';
 import { ModelType } from "@project-miuna/utils";
-export const makeNewUser = (db: MongoDBClient, email: string, username: string, password: string, name: string, sec: string, student_id: string): Promise<string> => {
+export const makeNewUser = (db: MongoDBClient, email: string, username: string, password: string, name: string, sec: string, student_id: string, major: string): Promise<string> => {
     return new Promise<string>(async (resolve, reject) => {
         let userDB = db.getModel(ModelType.USERS);
         let saltRound = process.env.SALT_ROUND || "3"
@@ -17,6 +17,7 @@ export const makeNewUser = (db: MongoDBClient, email: string, username: string, 
                 name: name,
                 sec: sec,
                 student_id: student_id,
+                major: major,
                 class: 0,
                 created: new Date().getTime(),
             })

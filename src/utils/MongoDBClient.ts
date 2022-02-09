@@ -29,6 +29,7 @@ export class MongoDBClient {
             name: String,
             sec: String,
             student_id: String,
+            major: String,
             class: {
                 type: Number,
                 default: 0
