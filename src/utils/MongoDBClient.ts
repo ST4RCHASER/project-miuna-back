@@ -26,6 +26,9 @@ export class MongoDBClient {
             username: String,
             lowerUsername: String,
             password: String,
+            name: String,
+            sec: String,
+            student_id: String,
             class: {
                 type: Number,
                 default: 0

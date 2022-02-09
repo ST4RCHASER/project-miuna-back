@@ -7,7 +7,7 @@ router.post('/', async (_, res) => {
   let db: MongoDBClient = (_ as any).db;
   console.log(body)
   try {
-    if (!body || !body.email || !body.username || !body.password) {
+    if (!body || !body.email || !body.username || !body.password || !body.name || !body.sec || !body.student_id) {
       console.log(body);
       const response: RESTResp<never> = {
         success: false,
@@ -42,7 +42,7 @@ router.post('/', async (_, res) => {
       }
       return res.status(409).send(response);
     } catch (ec1) { }
-    makeNewUser(db, body.email, body.username, body.password)
+    makeNewUser(db, body.email, body.username, body.password, body.name, body.sec, body.student_id)
     const response: RESTResp<never> = {
       success: true,
       statusCode: 201,
