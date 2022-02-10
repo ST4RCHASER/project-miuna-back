@@ -7,16 +7,13 @@ router.post('/', (_, res) => {
   let db: MongoDBClient = (req as any).db;
   authUser(db, body.username, body.password).then((result) => {
     if (result.success) {
-      const response: RESTResp<object> = {
+      res.status(200).send({
         success: true,
         statusCode: 200,
         message: result.message,
-        content: {
-          token: result.token,
-          uid: result.uid
-        }
-      }
-      res.status(200).send(response)
+        content: result.token,
+        uid: result.uid
+      })
     } else {
       const response: RESTResp<never> = {
         success: false,
