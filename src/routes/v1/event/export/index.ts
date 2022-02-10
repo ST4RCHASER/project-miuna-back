@@ -61,7 +61,7 @@ router.get('/:id', async (_, res) => {
         workbook.lastPrinted = new Date();
 
         //Setup columns
-        const worksheet = workbook.addWorksheet('Miuna Export' + new Date().getDay() + '_' + new Date().getMonth() + '_' + new Date().getFullYear() + '-' + new Date().getHours() + '_' + new Date().getMinutes() + '_' + new Date().getSeconds());
+        const worksheet = workbook.addWorksheet('Miuna Export Events ' + new Date().getDay() + '_' + new Date().getMonth() + '_' + new Date().getFullYear() + '-' + new Date().getHours() + '_' + new Date().getMinutes() + '_' + new Date().getSeconds());
         worksheet.getColumn('A').width = 5;
         worksheet.getColumn('B').width = 22.30;
         worksheet.getColumn('C').width = 16.85;
@@ -130,7 +130,7 @@ router.get('/:id', async (_, res) => {
         worksheet.getCell('H14').value = 'เวลาสิ้นสุด';
         worksheet.getCell('I14').value = 'หมายเหตุ';
 
-
+        //Add Data
         worksheet.getCell('A7').value = 'แบบฟอร์มกิจกรรม ปีการศึกษา .......';
         worksheet.getCell('A7').style = {
             font: {
@@ -224,7 +224,7 @@ router.get('/:id', async (_, res) => {
                 new Date(p.timeLeave).getSeconds();
             current_row++;
         }
-        let filename = 'EXPORT_' + new Date().getDay() + '_' + new Date().getMonth() + '_' + new Date().getFullYear() + '-' + new Date().getHours() + '_' + new Date().getMinutes() + '_' + new Date().getSeconds() + '.xlsx';
+        let filename = 'EXPORT_EVENTS_' + new Date().getDay() + '_' + new Date().getMonth() + '_' + new Date().getFullYear() + '-' + new Date().getHours() + '_' + new Date().getMinutes() + '_' + new Date().getSeconds() + '.xlsx';
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + filename);
 
