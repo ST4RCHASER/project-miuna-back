@@ -5,6 +5,7 @@ router.get('/:id', requireAuth, async (_, res) => {
     try {
         let req: MinuRequest = _ as any;
         let event: Event = await getEventByID(req.db, req.params.id);
+        let includeList: string = req.query.include as any;
         if (!event) {
             const response: RESTResp<never> = {
                 success: false,
@@ -24,7 +25,7 @@ router.get('/:id', requireAuth, async (_, res) => {
         let count = await req.db.getModel(ModelType.EVENT_RECORDS).countDocuments({eventID: event.id, ownerid: req.user.id, timeLeave: -1});
         let history: any[] = [];
         let historyResult = await req.db.getModel(ModelType.EVENT_RECORDS).find({eventID: event.id});
-        if(historyResult) { 
+        if(historyResult && includeList == 'true') { 
             for(const his of historyResult) {
                 let user = await req.db.getModel(ModelType.USERS).findById(his.ownerID);
                 if(user){
@@ -53,28 +54,55 @@ router.get('/:id', requireAuth, async (_, res) => {
             }
         }
         //send event infomation
-        const response: RESTResp<object> = {
-            success: true,
-            statusCode: 200,
-            message: 'event found',
-            content: {
-                id: event.id,
-                name: event.name,
-                ownerID: event.ownerID,
-                time: {
-                    created: event.time.created,
-                    start: event.time.start,
-                    readable_start: new Date(event.time.start).toLocaleString(),
-                    end: event.time.end,
-                    readable_end: new Date(event.time.end).toLocaleString(),
-                },
-                form: event.form,
-                options: event.options,
-                state: event.state,
-                raw: event,
-                description: event.description,
-                is_joining: count > 0,
-                participants: history,
+        let response : RESTResp<object>;
+        if(includeList) {
+            response  = {
+                success: true,
+                statusCode: 200,
+                message: 'event found',
+                content: {
+                    id: event.id,
+                    name: event.name,
+                    ownerID: event.ownerID,
+                    time: {
+                        created: event.time.created,
+                        start: event.time.start,
+                        readable_start: new Date(event.time.start).toLocaleString(),
+                        end: event.time.end,
+                        readable_end: new Date(event.time.end).toLocaleString(),
+                    },
+                    form: event.form,
+                    options: event.options,
+                    state: event.state,
+                    raw: event,
+                    description: event.description,
+                    is_joining: count > 0,
+                    participants: history,
+                }
+            }
+        }else {
+            response = {
+                success: true,
+                statusCode: 200,
+                message: 'event found',
+                content: {
+                    id: event.id,
+                    name: event.name,
+                    ownerID: event.ownerID,
+                    time: {
+                        created: event.time.created,
+                        start: event.time.start,
+                        readable_start: new Date(event.time.start).toLocaleString(),
+                        end: event.time.end,
+                        readable_end: new Date(event.time.end).toLocaleString(),
+                    },
+                    form: event.form,
+                    options: event.options,
+                    state: event.state,
+                    raw: event,
+                    description: event.description,
+                    is_joining: count > 0,
+                }
             }
         }
         return res.status(200).send(response);
