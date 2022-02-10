@@ -72,7 +72,7 @@ router.get('/:id', requireAuth, async (_, res) => {
                 options: event.options,
                 state: event.state,
                 raw: event,
-                description: event.description,
+                description: event.description || ' ',
                 is_joining: count > 0,
                 participants: history,
             }
