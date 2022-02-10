@@ -5,14 +5,16 @@ router.post('/', (_, res) => {
   let req = <MinuRequest>_;
   let body = req.body;
   let db: MongoDBClient = (req as any).db;
-  console.log(body);
   authUser(db, body.username, body.password).then((result) => {
     if (result.success) {
-      const response: RESTResp<string> = {
+      const response: RESTResp<object> = {
         success: true,
         statusCode: 200,
         message: result.message,
-        content: result.token
+        content: {
+          token: result.token,
+          uid: result.uid
+        }
       }
       res.status(200).send(response)
     } else {

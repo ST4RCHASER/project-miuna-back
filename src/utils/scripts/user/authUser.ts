@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 interface AuthResult {
     success: boolean,
     message: string,
+    uid: string,
     token?: string
 }
 export const authUser = async (db: MongoDBClient, usernameOrEmail: string, password: string): Promise<AuthResult> => {
@@ -18,6 +19,7 @@ export const authUser = async (db: MongoDBClient, usernameOrEmail: string, passw
                         success: true,
                         message: "Auth ok",
                         token: token,
+                        uid: thisUser.id
                     })
                 } else {
                     reject({

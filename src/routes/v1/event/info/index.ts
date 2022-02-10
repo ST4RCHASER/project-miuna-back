@@ -22,6 +22,36 @@ router.get('/:id', requireAuth, async (_, res) => {
             return res.status(403).send(response);
         }
         let count = await req.db.getModel(ModelType.EVENT_RECORDS).countDocuments({eventID: event.id, ownerid: req.user.id, timeLeave: -1});
+        let history: any[] = [];
+        let historyResult = await req.db.getModel(ModelType.EVENT_RECORDS).find({eventID: event.id});
+        if(historyResult) { 
+            for(const his of historyResult) {
+                let user = await req.db.getModel(ModelType.USERS).findById(his.ownerID);
+                if(user){
+                    user = {
+                        id: user.id,
+                        username: user.username,
+                        name: user.name,
+                        email: user.email,
+                        student_id: user.student_id,
+                        major: user.major,
+                        sec: user.sec,
+                        created: user.created,
+                        lowerUsername: user.lowerUsername,
+                        class: user.class,
+                    }
+                }
+                history.push({
+                    id: his.id,
+                    ownerid: his.ownerID,
+                    eventid: his.eventID,
+                    timeJoin: his.timeJoin,
+                    timeLeave: his.timeLeave,
+                    created: his.created,
+                    owner: user,
+                });
+            }
+        }
         //send event infomation
         const response: RESTResp<object> = {
             success: true,
@@ -42,8 +72,9 @@ router.get('/:id', requireAuth, async (_, res) => {
                 options: event.options,
                 state: event.state,
                 raw: event,
-                description: event.description || ' ',
+                description: event.description,
                 is_joining: count > 0,
+                participants: history,
             }
         }
         return res.status(200).send(response);
