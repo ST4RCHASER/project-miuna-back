@@ -4,7 +4,7 @@ import { RESTResp, requireAuth, Event, MinuRequest, ModelType } from '@project-m
 router.get('/', requireAuth, async (_, res) => {
     let req = <MinuRequest>_;
     let db = req.db.getModel(ModelType.EVENT_RECORDS);
-    let result = await db.find({ownerid: req.user.id, timeLeave: -1});
+    let result = await db.find({ownerID: req.user.id, timeLeave: -1});
     let recordList:any[] = [];
     if(result == null) {
         const response: RESTResp<never> = {
