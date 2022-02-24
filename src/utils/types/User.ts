@@ -6,5 +6,9 @@ export interface User {
   password: string
   created: string
   class: number
+  name: string
+  sec: string
+  student_id: string
+  major: string
   readonly raw: any
 }

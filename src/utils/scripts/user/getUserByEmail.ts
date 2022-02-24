@@ -14,6 +14,10 @@ export const getUserByEmail = async (db: MongoDBClient, email: string): Promise<
             class: userInfo.class,
             created: userInfo.created,
             password: userInfo.password,
+            major: userInfo.major,
+            name: userInfo.name,
+            sec: userInfo.sec,
+            student_id: userInfo.student_id,
             raw: userInfo
         });
     })

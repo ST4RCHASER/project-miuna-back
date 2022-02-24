@@ -18,6 +18,10 @@ export const getUserByInfo = async (db: MongoDBClient, username: string): Promis
             class: userInfo.class,
             created: userInfo.created,
             password: userInfo.password,
+            major: userInfo.major,
+            name: userInfo.name,
+            sec: userInfo.sec,
+            student_id: userInfo.student_id,
             raw: userInfo
         });
     })

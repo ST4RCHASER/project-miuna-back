@@ -16,6 +16,10 @@ export const getUserByUsername = async (db: MongoDBClient, username: string): Pr
             password: userInfo.password,
             created: userInfo.created,
             class: userInfo.class,
+            major: userInfo.major,
+            name: userInfo.name,
+            sec: userInfo.sec,
+            student_id: userInfo.student_id,
             raw: userInfo
         });
     })

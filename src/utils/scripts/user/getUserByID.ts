@@ -12,6 +12,10 @@ export const getUserByID = async (db: MongoDBClient, id: string): Promise<User> 
             password: userInfo.password,
             created: userInfo.created,
             class: userInfo.class,
+            major: userInfo.major,
+            name: userInfo.name,
+            sec: userInfo.sec,
+            student_id: userInfo.student_id,
             raw: userInfo
         });
     })
