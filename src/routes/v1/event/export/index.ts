@@ -2,6 +2,7 @@ import express from 'express'
 const router = express.Router()
 import { RESTResp, requireAuth, Event, findUserEventRecordByEventID, MinuRequest, getEventByID, EventState, getEventRecordByID, leaveUserFromEvent, joinUserToEvent, ModelType } from '@project-miuna/utils'
 import excelJS from 'exceljs'
+import fs from 'fs';
 router.get('/:id', async (_, res) => {
     try {
         let req: MinuRequest = _ as any;
@@ -224,12 +225,19 @@ router.get('/:id', async (_, res) => {
                 new Date(p.timeLeave).getSeconds();
             current_row++;
         }
+        const imgID = workbook.addImage({
+            buffer: fs.readFileSync('./src/assets/export_logo.png'),
+            extension: 'png',
+        });
+        worksheet.addImage(imgID, {
+            tl: { col: 1, row: 0 },
+            br: { col: 8.9, row: 6 },
+            editAs: 'absolute'
+        } as any);
         let filename = 'EXPORT_EVENTS_' + new Date().getDay() + '_' + new Date().getMonth() + '_' + new Date().getFullYear() + '-' + new Date().getHours() + '_' + new Date().getMinutes() + '_' + new Date().getSeconds() + '.xlsx';
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + filename);
-
         await workbook.xlsx.write(res);
-
         res.end();
         return;
         //send event infomation

@@ -1,5 +1,6 @@
 import express from 'express'
 const router = express.Router()
+import fs from 'fs';
 import { RESTResp, requireAuth, Event, findUserEventRecordByEventID, MinuRequest, getEventByID, EventState, getEventRecordByID, leaveUserFromEvent, joinUserToEvent, ModelType } from '@project-miuna/utils'
 import excelJS from 'exceljs'
 router.get('/:id', async (_, res) => {
@@ -109,7 +110,7 @@ router.get('/:id', async (_, res) => {
         worksheet.getCell('A11').style = centerStyle;
         worksheet.getCell('C11').value = 'กลุ่มเรียน ' + userData.sec;
         worksheet.getCell('C11').style = centerStyle;
-        worksheet.getCell('A12').value = 'ชั้นปี ' + userData.year;
+        worksheet.getCell('A12').value = 'ชั้นปี ' + (userData.year || '.......');
         worksheet.getCell('A12').style = centerStyle;
         worksheet.getCell('C12').value = 'รหัสนักศึกษา ' + userData.student_id;
         worksheet.getCell('C12').style = centerStyle;
@@ -195,6 +196,21 @@ router.get('/:id', async (_, res) => {
             worksheet.getCell('D' + current_row).style = borderStyle;
             current_row++;
         }
+        // add image to workbook by buffer
+        const imgID = workbook.addImage({
+            buffer: fs.readFileSync('./src/assets/export_logo.png'),
+            extension: 'png',
+        });
+        // worksheet.addImage(imgID, {
+        //     tl: { col: 2.0, row: 0 },
+        //     ext: { width: 84, height: 114 },
+        //     editAs: 'absolute'
+        // } as any);
+        worksheet.addImage(imgID, {
+            tl: { col: 0, row: 0 },
+            br: { col: 4, row: 5.5 },
+            editAs: 'absolute'
+        } as any);
         let filename = 'EXPORT_HISTORY_' + new Date().getDay() + '_' + new Date().getMonth() + '_' + new Date().getFullYear() + '-' + new Date().getHours() + '_' + new Date().getMinutes() + '_' + new Date().getSeconds() + '.xlsx';
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader("Content-Disposition", "attachment; filename=" + filename);
