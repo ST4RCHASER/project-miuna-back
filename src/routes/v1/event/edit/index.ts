@@ -31,7 +31,7 @@ router.put('/:id', requireAuth, async (_, res) => {
             }
             return res.status(409).send(response);
         }
-        if (event.ownerID != req.user.id) {
+        if (event.ownerID.toString() != req.user.id.toString()) {
             const response: RESTResp<never> = {
                 success: false,
                 statusCode: 409,
@@ -42,6 +42,7 @@ router.put('/:id', requireAuth, async (_, res) => {
         await req.db.getModel(ModelType.EVENT).findByIdAndUpdate(req.params.id, {
             name: body.name || 'unnamed event',
             ownerID: req.user.id,
+            qrType: body.qrType || 0,
             time: {
                 created: new Date().getTime().toString(),
                 start: body.time.start,

@@ -4,6 +4,7 @@ export class MongoDBClient {
     public connString: string;
     private connection: Mongoose;
     private models: Model<any>[] = [];
+    public isReady: boolean = false;
     constructor(connString: string) {
         this.connString = connString;
     }
@@ -55,6 +56,10 @@ export class MongoDBClient {
                 type: Number,
                 default: 1
             },
+            qrType: {
+                type: Number,
+                default: 0
+            },
             options: Object,
             description: String,
         })
@@ -94,6 +99,7 @@ export class MongoDBClient {
         this.models.push(this.getConnection().model('form', form));
         this.models.push(this.getConnection().model('event_record', rec_event));
         this.models.push(this.getConnection().model('form_record', rec_form));
+        this.isReady = true;
         console.log('Schema registered');
     }
     getModel(type: ModelType): Model<any> {

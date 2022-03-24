@@ -21,6 +21,7 @@ router.post('/', requireAuth, async (_, res) => {
             start: new Date(body.time.start).getTime(),
             end: new Date(body.time.end).getTime(),
         },
+        qrType: body.qrType || 0,
         description: body.description || '',
         form: undefined,
         state: EventState.ENABLED

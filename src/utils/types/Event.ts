@@ -2,6 +2,7 @@ import { EventForm } from './EventForm'
 import { EventTime } from './EventTime'
 import { EventOptions } from './EventOptions'
 import { EventState } from '..'
+import { qrType } from './qrType'
 export interface Event {
     id?: string
     name: string
@@ -11,5 +12,6 @@ export interface Event {
     options?: EventOptions
     raw?: any
     form?: EventForm
+    qrType?: qrType
     description?: string
 }

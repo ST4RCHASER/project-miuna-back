@@ -53,6 +53,7 @@ router.get('/:id', requireAuth, async (_, res) => {
             }
         }
         //send event infomation
+        console.log('e',event)
         const response: RESTResp<object> = {
             success: true,
             statusCode: 200,
@@ -71,6 +72,7 @@ router.get('/:id', requireAuth, async (_, res) => {
                 form: event.form,
                 options: event.options,
                 state: event.state,
+                qrType: event.qrType,
                 raw: event,
                 description: event.description || ' ',
                 is_joining: count > 0,

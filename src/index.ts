@@ -12,6 +12,14 @@ console.log(process.env.MONGO_CON_STR)
 let mongo = new MongoDBClient(process.env.MONGO_CON_STR as string);
 mongo.start();
 server.use(async (req, res, next) => {
+  if(!mongo.isReady) {
+    const response: RESTResp<never> = {
+      success: false,
+      statusCode: 503,
+      message: 'Server is in bootup state, please try again later',
+    }
+    return res.status(503).send(response);
+  }
   console.log('Time:', Date.now(), 'METHOD:', req.method, "PATH:", req.url);
   (req as any).db = mongo;
   next()

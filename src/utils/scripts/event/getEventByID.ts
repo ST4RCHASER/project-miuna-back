@@ -21,6 +21,7 @@ export const getEventByID = async (db: MongoDBClient, id: string): Promise<Event
             },
             form: form,
             state: eventInfo.state,
+            qrType: eventInfo.qrType,
             options: eventInfo.options,
             raw: eventInfo,
         });

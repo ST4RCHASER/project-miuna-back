@@ -27,6 +27,7 @@ export const getEventListByUser = async (db: MongoDBClient, user: User, filter: 
                     form: undefined,
                     options: doc.options,
                     state: doc.state,
+                    qrType: doc.qrType,
                     raw: doc,
                     description: doc.description || ' ',
                 })

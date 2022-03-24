@@ -21,7 +21,8 @@ router.delete('/:id', requireAuth, async (_, res) => {
         }
         return res.status(409).send(response);
     }
-    if (event.ownerID != req.user.id) {
+    console.log('id',req.user.id,event.ownerID);
+    if (event.ownerID.toString() != req.user.id.toString()) {
         const response: RESTResp<never> = {
             success: false,
             statusCode: 409,
