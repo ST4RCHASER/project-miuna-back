@@ -1,6 +1,7 @@
 import express from 'express'
 const router = express.Router()
-import { RESTResp, requireAuth, MinuRequest, makeNewEvent, EventState } from '@project-miuna/utils'
+import { RESTResp, requireAuth, MinuRequest, makeNewEvent, EventState, makeB32 } from '@project-miuna/utils'
+import crypto from "crypto";
 router.post('/', requireAuth, async (_, res) => {
     let req = <MinuRequest>_;
     let body = req.body;
@@ -24,6 +25,7 @@ router.post('/', requireAuth, async (_, res) => {
         qrType: body.qrType || 0,
         description: body.description || '',
         form: undefined,
+        hash: makeB32(),
         state: EventState.ENABLED
     });
     const response: RESTResp<never> = {

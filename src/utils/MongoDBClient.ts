@@ -60,6 +60,7 @@ export class MongoDBClient {
                 type: Number,
                 default: 0
             },
+            hash: String,
             options: Object,
             description: String,
         })

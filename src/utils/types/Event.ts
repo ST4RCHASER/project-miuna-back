@@ -9,6 +9,7 @@ export interface Event {
     ownerID: string
     time: EventTime
     state: EventState
+    hash?: string
     options?: EventOptions
     raw?: any
     form?: EventForm
