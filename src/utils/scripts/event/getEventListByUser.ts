@@ -28,6 +28,10 @@ export const getEventListByUser = async (db: MongoDBClient, user: User, filter: 
                     options: doc.options,
                     state: doc.state,
                     qrType: doc.qrType,
+                    loc_check: doc.loc_check,
+                    loc_lat: doc.loc_lat,
+                    loc_lng: doc.loc_lng,
+                    hash: doc.hash,
                     raw: doc,
                     description: doc.description || ' ',
                 })
