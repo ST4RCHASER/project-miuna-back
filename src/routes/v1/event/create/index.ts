@@ -24,6 +24,9 @@ router.post('/', requireAuth, async (_, res) => {
         },
         qrType: body.qrType || 0,
         description: body.description || '',
+        loc_check: !!body.loc_check,
+        loc_lat: body.loc_lat || 0,
+        loc_lng: body.loc_lng || 0,
         form: undefined,
         hash: makeB32(),
         state: EventState.ENABLED

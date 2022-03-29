@@ -43,6 +43,9 @@ router.put('/:id', requireAuth, async (_, res) => {
             name: body.name || 'unnamed event',
             ownerID: req.user.id,
             qrType: body.qrType || 0,
+            loc_check: !!body.loc_check,
+            loc_lat: body.loc_lat || 0,
+            loc_lng: body.loc_lng || 0,
             time: {
                 created: new Date().getTime().toString(),
                 start: body.time.start,

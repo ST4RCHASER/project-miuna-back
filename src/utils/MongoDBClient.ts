@@ -60,6 +60,18 @@ export class MongoDBClient {
                 type: Number,
                 default: 0
             },
+            loc_check: {
+                type: Boolean,
+                default: false
+            },
+            loc_lat: {
+                type: Number,
+                default: 0
+            },
+            loc_lng: {
+                type: Number,
+                default: 0
+            },
             hash: String,
             options: Object,
             description: String,

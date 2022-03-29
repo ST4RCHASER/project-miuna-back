@@ -14,5 +14,8 @@ export interface Event {
     raw?: any
     form?: EventForm
     qrType?: qrType
+    loc_check?: boolean
+    loc_lat?: number
+    loc_lng?: number
     description?: string
 }
