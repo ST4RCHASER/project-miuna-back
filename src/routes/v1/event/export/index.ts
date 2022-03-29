@@ -206,7 +206,12 @@ router.get('/:id', async (_, res) => {
             worksheet.getCell('C' + current_row).value = p.owner.major;
             worksheet.getCell('D' + current_row).value = p.owner.sec;
             worksheet.getCell('E' + current_row).value = p.owner.student_id;
-            worksheet.getCell('F' + current_row).value = (new Date(p.timeJoin).getHours() > 9
+            worksheet.getCell('F' + current_row).value = new Date(p.timeJoin).getDate() +
+            '/' +
+            (new Date(p.timeJoin).getMonth() + 1) +
+            '/' +
+            new Date(p.timeJoin).getFullYear();
+            worksheet.getCell('G' + current_row).value = (new Date(p.timeJoin).getHours() > 9
                 ? new Date(p.timeJoin).getHours()
                 : `0${new Date(p.timeJoin).getHours()}`) +
                 ':' +
