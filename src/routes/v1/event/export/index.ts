@@ -206,23 +206,30 @@ router.get('/:id', async (_, res) => {
             worksheet.getCell('C' + current_row).value = p.owner.major;
             worksheet.getCell('D' + current_row).value = p.owner.sec;
             worksheet.getCell('E' + current_row).value = p.owner.student_id;
-            worksheet.getCell('F' + current_row).value = new Date(p.timeJoin).getDate() +
-                '/' +
-                (new Date(p.timeJoin).getMonth() + 1) +
-                '/' +
-                new Date(p.timeJoin).getFullYear();
-            worksheet.getCell('G' + current_row).value = new Date(p.timeJoin).getHours() +
+            worksheet.getCell('F' + current_row).value = (new Date(p.timeJoin).getHours() > 9
+                ? new Date(p.timeJoin).getHours()
+                : `0${new Date(p.timeJoin).getHours()}`) +
                 ':' +
-                new Date(p.timeJoin).getMinutes() +
+                (new Date(p.timeJoin).getMinutes() > 9
+                    ? new Date(p.timeJoin).getMinutes()
+                    : `0${new Date(p.timeJoin).getMinutes()}`) +
                 ':' +
-                new Date(p.timeJoin).getSeconds();
+                (new Date(p.timeJoin).getSeconds() > 9
+                    ? new Date(p.timeJoin).getSeconds()
+                    : `0${new Date(p.timeJoin).getSeconds()}`);
             worksheet.getCell('H' + current_row).value = new Date(p.timeLeave).getTime() < 1
                 ? '-'
-                : new Date(p.timeLeave).getHours() +
+                : (new Date(p.timeLeave).getHours() > 9
+                    ? new Date(p.timeLeave).getHours()
+                    : `0${new Date(p.timeLeave).getHours()}`) +
                 ':' +
-                new Date(p.timeLeave).getMinutes() +
+                (new Date(p.timeLeave).getMinutes() > 9
+                    ? new Date(p.timeLeave).getMinutes()
+                    : `0${new Date(p.timeLeave).getMinutes()}`) +
                 ':' +
-                new Date(p.timeLeave).getSeconds();
+                (new Date(p.timeLeave).getSeconds() > 9
+                    ? new Date(p.timeLeave).getSeconds()
+                    : `0${new Date(p.timeLeave).getSeconds()}`);
             current_row++;
         }
         const imgID = workbook.addImage({

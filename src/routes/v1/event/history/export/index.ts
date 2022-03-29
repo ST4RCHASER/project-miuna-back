@@ -184,16 +184,32 @@ router.get('/:id', async (_, res) => {
                 '/' +
                 new Date(z.timeJoin).getFullYear();
             worksheet.getCell('B' + current_row).style = borderStyle;
-            worksheet.getCell('C' + current_row).value = new Date(z.timeJoin).getHours() + ':' + new Date(z.timeJoin).getMinutes() + ':' + new Date(z.timeJoin).getSeconds();
+            worksheet.getCell('C' + current_row).value = (new Date(z.timeJoin).getHours() > 9
+                ? new Date(z.timeJoin).getHours()
+                : `0${new Date(z.timeJoin).getHours()}`) +
+                ':' +
+                (new Date(z.timeJoin).getMinutes() > 9
+                    ? new Date(z.timeJoin).getMinutes()
+                    : `0${new Date(z.timeJoin).getMinutes()}`) +
+                ':' +
+                (new Date(z.timeJoin).getSeconds() > 9
+                    ? new Date(z.timeJoin).getSeconds()
+                    : `0${new Date(z.timeJoin).getSeconds()}`);
             worksheet.getCell('C' + current_row).style = borderStyle;
             worksheet.getCell('D' + current_row).value = new Date(z.timeLeave).getTime() < 1
                 ? '-'
-                : new Date(z.timeLeave).getHours() +
+                : (new Date(z.timeLeave).getHours() > 9
+                    ? new Date(z.timeLeave).getHours()
+                    : `0${new Date(z.timeLeave).getHours()}`) +
                 ':' +
-                new Date(z.timeLeave).getMinutes() +
+                (new Date(z.timeLeave).getMinutes() > 9
+                    ? new Date(z.timeLeave).getMinutes()
+                    : `0${new Date(z.timeLeave).getMinutes()}`) +
                 ':' +
-                new Date(z.timeLeave).getSeconds();
-            worksheet.getCell('D' + current_row).style = borderStyle;
+                (new Date(z.timeLeave).getSeconds() > 9
+                    ? new Date(z.timeLeave).getSeconds()
+                    : `0${new Date(z.timeLeave).getSeconds()}`),
+                worksheet.getCell('D' + current_row).style = borderStyle;
             current_row++;
         }
         // add image to workbook by buffer
