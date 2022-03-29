@@ -50,7 +50,7 @@ router.get('/:id', async (_, res) => {
 
         worksheet.mergeCells('A7:D7');
         worksheet.mergeCells('A8:D8');
-        worksheet.getCell('A7').value = 'แบบฟอร์มกิจกรรมที่เข้าร่วม ปีการศึกษา .......';
+        worksheet.getCell('A7').value = 'แบบฟอร์มกิจกรรมที่เข้าร่วม ปีการศึกษา .........';
         worksheet.getCell('A8').value = 'มหาวิทยาลัย นอร์ทกรุงเทพ';
         worksheet.getCell('A7').style = {
             font: {

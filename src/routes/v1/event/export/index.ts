@@ -132,7 +132,7 @@ router.get('/:id', async (_, res) => {
         worksheet.getCell('I14').value = 'หมายเหตุ';
 
         //Add Data
-        worksheet.getCell('A7').value = 'แบบฟอร์มกิจกรรม ปีการศึกษา .......';
+        worksheet.getCell('A7').value = 'แบบฟอร์มกิจกรรม ปีการศึกษา .........';
         worksheet.getCell('A7').style = {
             font: {
                 name: 'Angsana New',
