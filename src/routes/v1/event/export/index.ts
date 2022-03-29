@@ -124,7 +124,7 @@ router.get('/:id', async (_, res) => {
         worksheet.getCell('A14').value = 'ลำดับ';
         worksheet.getCell('B14').value = 'ชื่อนักศึกษา';
         worksheet.getCell('C14').value = 'สาขา';
-        worksheet.getCell('D14').value = 'กลุ่มเรียน';
+        worksheet.getCell('D14').value = 'ชั้นปี';
         worksheet.getCell('E14').value = 'รหัสนักศึกษา';
         worksheet.getCell('F14').value = 'วันที่เข้าร่วม';
         worksheet.getCell('G14').value = 'เวลาเริ่มต้น';
@@ -132,7 +132,7 @@ router.get('/:id', async (_, res) => {
         worksheet.getCell('I14').value = 'หมายเหตุ';
 
         //Add Data
-        worksheet.getCell('A7').value = 'แบบฟอร์มกิจกรรม ปีการศึกษา .......';
+        worksheet.getCell('A7').value = 'แบบฟอร์มกิจกรรม ปีการศึกษา .........';
         worksheet.getCell('A7').style = {
             font: {
                 name: 'Angsana New',
@@ -144,7 +144,7 @@ router.get('/:id', async (_, res) => {
                 vertical: 'middle',
             }
         }
-        worksheet.getCell('A8').value = 'มหาวิทยาลัยเทคโนโลยีราชมงคลสุวรรณภูมิ ศูนย์นนทบุรี';
+        worksheet.getCell('A8').value = 'มหาวิทยาลัย นอร์ทกรุงเทพ';
         worksheet.getCell('A8').style = {
             font: {
                 name: 'Angsana New',
@@ -207,22 +207,34 @@ router.get('/:id', async (_, res) => {
             worksheet.getCell('D' + current_row).value = p.owner.sec;
             worksheet.getCell('E' + current_row).value = p.owner.student_id;
             worksheet.getCell('F' + current_row).value = new Date(p.timeJoin).getDate() +
-                '/' +
-                (new Date(p.timeJoin).getMonth() + 1) +
-                '/' +
-                new Date(p.timeJoin).getFullYear();
-            worksheet.getCell('G' + current_row).value = new Date(p.timeJoin).getHours() +
+            '/' +
+            (new Date(p.timeJoin).getMonth() + 1) +
+            '/' +
+            new Date(p.timeJoin).getFullYear();
+            worksheet.getCell('G' + current_row).value = (new Date(p.timeJoin).getHours() > 9
+                ? new Date(p.timeJoin).getHours()
+                : `0${new Date(p.timeJoin).getHours()}`) +
                 ':' +
-                new Date(p.timeJoin).getMinutes() +
+                (new Date(p.timeJoin).getMinutes() > 9
+                    ? new Date(p.timeJoin).getMinutes()
+                    : `0${new Date(p.timeJoin).getMinutes()}`) +
                 ':' +
-                new Date(p.timeJoin).getSeconds();
+                (new Date(p.timeJoin).getSeconds() > 9
+                    ? new Date(p.timeJoin).getSeconds()
+                    : `0${new Date(p.timeJoin).getSeconds()}`);
             worksheet.getCell('H' + current_row).value = new Date(p.timeLeave).getTime() < 1
                 ? '-'
-                : new Date(p.timeLeave).getHours() +
+                : (new Date(p.timeLeave).getHours() > 9
+                    ? new Date(p.timeLeave).getHours()
+                    : `0${new Date(p.timeLeave).getHours()}`) +
                 ':' +
-                new Date(p.timeLeave).getMinutes() +
+                (new Date(p.timeLeave).getMinutes() > 9
+                    ? new Date(p.timeLeave).getMinutes()
+                    : `0${new Date(p.timeLeave).getMinutes()}`) +
                 ':' +
-                new Date(p.timeLeave).getSeconds();
+                (new Date(p.timeLeave).getSeconds() > 9
+                    ? new Date(p.timeLeave).getSeconds()
+                    : `0${new Date(p.timeLeave).getSeconds()}`);
             current_row++;
         }
         const imgID = workbook.addImage({
