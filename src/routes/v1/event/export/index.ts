@@ -144,7 +144,7 @@ router.get('/:id', async (_, res) => {
                 vertical: 'middle',
             }
         }
-        worksheet.getCell('A8').value = 'มหาวิทยาลัยเทคโนโลยีราชมงคลสุวรรณภูมิ ศูนย์นนทบุรี';
+        worksheet.getCell('A8').value = 'มหาวิทยาลัย นอร์ทกรุงเทพ';
         worksheet.getCell('A8').style = {
             font: {
                 name: 'Angsana New',
