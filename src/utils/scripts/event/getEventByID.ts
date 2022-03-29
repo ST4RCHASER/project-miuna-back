@@ -23,6 +23,7 @@ export const getEventByID = async (db: MongoDBClient, id: string): Promise<Event
             state: eventInfo.state,
             hash: eventInfo.hash,
             qrType: eventInfo.qrType,
+            description: eventInfo.description,
             options: eventInfo.options,
             raw: eventInfo,
         });
