@@ -1,4 +1,4 @@
-export const makeB32 = (length: number = 16) => {
+export const makeB32 = (length: number = 10) => {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
     var charactersLength = characters.length;
