@@ -70,6 +70,8 @@ router.get('/:id', requireAuth, async (_, res) => {
         }
         //send event infomation
         let h = oneTimeHashList.find(x => x.id == event.id);
+        console.log('length', oneTimeHashList.length);
+
         if (event.qrType == 2) {
             if (!h) {
                 h = {
@@ -77,7 +79,8 @@ router.get('/:id', requireAuth, async (_, res) => {
                     id: event.id?.toString() as any,
                 }
                 oneTimeHashList.push(h);
-            } else if (change) {
+            }
+            if (change && h) {
                 h.hash = makeB32(32);
                 oneTimeHashList = oneTimeHashList.filter(x => x.id != event.id?.toString());
                 oneTimeHashList.push(h);
