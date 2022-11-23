@@ -37,7 +37,9 @@ router.get('/:id', requireAuth, async (_, res) => {
             }
             return res.status(403).send(response);
         }
-        let count = await req.db.getModel(ModelType.EVENT_RECORDS).countDocuments({ eventID: event.id, ownerid: req.user.id, timeLeave: -1 });
+        const userId = req.user.id.toString()
+        const eventId = event.id?.toString()
+        let count = await req.db.getModel(ModelType.EVENT_RECORDS).countDocuments({ eventID: eventId, ownerID: userId, timeLeave: -1 });
         let history: any[] = [];
         let historyResult = await req.db.getModel(ModelType.EVENT_RECORDS).find({ eventID: event.id });
         if (historyResult) {

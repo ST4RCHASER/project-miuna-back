@@ -16,7 +16,7 @@ router.post('/', requireAuth, async (_, res) => {
     try {
         if (!body.id) {//Leave using recordID
             let record = await getEventRecordByID(req.db, body.rec);
-            if (record.timeLeave == '-1') {
+            if (record.timeLeave != '-1') {
                 const response: RESTResp<never> = {
                     success: true,
                     statusCode: 400,
