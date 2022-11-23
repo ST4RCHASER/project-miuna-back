@@ -2,14 +2,14 @@ import express from 'express'
 const router = express.Router()
 import { RESTResp, requireAuth, Event, findUserEventRecordByEventID, MinuRequest, getEventByID, EventState, getEventRecordByID, leaveUserFromEvent, joinUserToEvent, ModelType, makeB32 } from '@project-miuna/utils'
 let oneTimeHashList: oneTimeHash[] = [];
-interface oneTimeHash{
+interface oneTimeHash {
     hash: string,
     id: string,
 }
 router.get('/:id', requireAuth, async (_, res) => {
     try {
         let req: MinuRequest = _ as any;
-        if(!req.query.change) {
+        if (!req.query.change) {
             const response: RESTResp<never> = {
                 success: false,
                 statusCode: 403,
@@ -18,6 +18,8 @@ router.get('/:id', requireAuth, async (_, res) => {
             return res.status(403).send(response);
         }
         let change = req.query.change === 'true';
+        console.log('change', change);
+
         let event: Event = await getEventByID(req.db, req.params.id);
         if (!event) {
             const response: RESTResp<never> = {
@@ -35,13 +37,13 @@ router.get('/:id', requireAuth, async (_, res) => {
             }
             return res.status(403).send(response);
         }
-        let count = await req.db.getModel(ModelType.EVENT_RECORDS).countDocuments({eventID: event.id, ownerid: req.user.id, timeLeave: -1});
+        let count = await req.db.getModel(ModelType.EVENT_RECORDS).countDocuments({ eventID: event.id, ownerid: req.user.id, timeLeave: -1 });
         let history: any[] = [];
-        let historyResult = await req.db.getModel(ModelType.EVENT_RECORDS).find({eventID: event.id});
-        if(historyResult) { 
-            for(const his of historyResult) {
+        let historyResult = await req.db.getModel(ModelType.EVENT_RECORDS).find({ eventID: event.id });
+        if (historyResult) {
+            for (const his of historyResult) {
                 let user = await req.db.getModel(ModelType.USERS).findById(his.ownerID);
-                if(user){
+                if (user) {
                     user = {
                         id: user.id,
                         username: user.username,
@@ -68,14 +70,14 @@ router.get('/:id', requireAuth, async (_, res) => {
         }
         //send event infomation
         let h = oneTimeHashList.find(x => x.id == event.id);
-        if(event.qrType == 2) {
-            if(!h) {
+        if (event.qrType == 2) {
+            if (!h) {
                 h = {
                     hash: makeB32(32),
                     id: event.id?.toString() as any,
                 }
                 oneTimeHashList.push(h);
-            }else if(change) {
+            } else if (change) {
                 h.hash = makeB32(32);
                 oneTimeHashList = oneTimeHashList.filter(x => x.id != event.id?.toString());
                 oneTimeHashList.push(h);
