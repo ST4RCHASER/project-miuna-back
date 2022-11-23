@@ -64,10 +64,10 @@ router.get('/:id', async (_, res) => {
         //Setup columns
         const worksheet = workbook.addWorksheet('Miuna Export Events ' + new Date().getDay() + '_' + new Date().getMonth() + '_' + new Date().getFullYear() + '-' + new Date().getHours() + '_' + new Date().getMinutes() + '_' + new Date().getSeconds());
         worksheet.getColumn('A').width = 5;
-        worksheet.getColumn('B').width = 22.30;
-        worksheet.getColumn('C').width = 16.85;
-        worksheet.getColumn('D').width = 10.20;
-        worksheet.getColumn('E').width = 13;
+        worksheet.getColumn('B').width = 13;
+        worksheet.getColumn('C').width = 22.30;
+        worksheet.getColumn('D').width = 16.85;
+        worksheet.getColumn('E').width = 10.20;
         worksheet.getColumn('F').width = 11.30;
         worksheet.getColumn('G').width = 10.45;
         worksheet.getColumn('H').width = 9.60;
@@ -122,10 +122,10 @@ router.get('/:id', async (_, res) => {
 
         //Setup Header
         worksheet.getCell('A14').value = 'ลำดับ';
-        worksheet.getCell('B14').value = 'ชื่อนักศึกษา';
-        worksheet.getCell('C14').value = 'สาขา';
-        worksheet.getCell('D14').value = 'ชั้นปี';
-        worksheet.getCell('E14').value = 'รหัสนักศึกษา';
+        worksheet.getCell('B14').value = 'รหัสนักศึกษา';
+        worksheet.getCell('C14').value = 'ชื่อนักศึกษา';
+        worksheet.getCell('D14').value = 'สาขา';
+        worksheet.getCell('E14').value = 'กลุ่มเรียน';
         worksheet.getCell('F14').value = 'วันที่เข้าร่วม';
         worksheet.getCell('G14').value = 'เวลาเริ่มต้น';
         worksheet.getCell('H14').value = 'เวลาสิ้นสุด';
@@ -202,15 +202,15 @@ router.get('/:id', async (_, res) => {
             worksheet.getCell('I' + current_row).style = cellstyle;
 
             worksheet.getCell('A' + current_row).value = current_row - 14;
-            worksheet.getCell('B' + current_row).value = p.owner.name;
-            worksheet.getCell('C' + current_row).value = p.owner.major;
-            worksheet.getCell('D' + current_row).value = p.owner.sec;
-            worksheet.getCell('E' + current_row).value = p.owner.student_id;
+            worksheet.getCell('B' + current_row).value = p.owner.student_id;
+            worksheet.getCell('C' + current_row).value = p.owner.name;
+            worksheet.getCell('D' + current_row).value = p.owner.major;
+            worksheet.getCell('E' + current_row).value = p.owner.sec;
             worksheet.getCell('F' + current_row).value = new Date(p.timeJoin).getDate() +
-            '/' +
-            (new Date(p.timeJoin).getMonth() + 1) +
-            '/' +
-            new Date(p.timeJoin).getFullYear();
+                '/' +
+                (new Date(p.timeJoin).getMonth() + 1) +
+                '/' +
+                new Date(p.timeJoin).getFullYear();
             worksheet.getCell('G' + current_row).value = (new Date(p.timeJoin).getHours() > 9
                 ? new Date(p.timeJoin).getHours()
                 : `0${new Date(p.timeJoin).getHours()}`) +
